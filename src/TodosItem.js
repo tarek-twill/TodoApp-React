@@ -54,7 +54,7 @@ class TodosItem extends Component {
             <input className="toggle" type="checkbox"
   							checked={this.state.completed} onChange={this.onToggle}/>
               </div>}
-            {this.state.isEditing && <input autoFocus= {true} 
+            {this.state.isEditing && <input className="edit" autoFocus= {true} 
 						value={this.state.editText}
 						onChange={(e) =>this.handleChange(e)}
 						onKeyDown={(event) => this.handleKeyDown(event, index, oldValue)}
