@@ -18,7 +18,7 @@ class Input extends Component {
     if (e.keyCode !== 13) {
       return;
     }
-    const val = this.state.newTodo;
+    const val = {text:this.state.newTodo, completed:false};
     this.props.handleKey(val)
     this.setState({newTodo: ''})
   }

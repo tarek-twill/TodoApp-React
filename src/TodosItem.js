@@ -7,7 +7,6 @@ class TodosItem extends Component {
     this.state = {
           isEditing: false,
           editText: this.props.todo,
-          completed: false,
           className: 'completed',
           classNameEdit: 'editing'
         }
@@ -30,31 +29,34 @@ class TodosItem extends Component {
     if (event.keyCode !== 13 ) {
       return;
     }
-    this.props.onSaving(this.state.editText, index, oldValue)
+    const val = {text: event.target.value, completed: this.props.todoStatus}
+    this.props.onSaving(val, index, oldValue)
     this.setState({isEditing: false})
   }
   handleSubmit(event, index, oldValue) {
-    let val = event.target.value
+    const val = {text: event.target.value, completed: this.props.todoStatus}
     if (val) {
-      this.props.onSaving(this.state.editText, index, oldValue)
+      this.props.onSaving(val, index, oldValue)
       this.setState({isEditing: false})
     }
   }
   onToggle() {
-    this.setState({completed: !this.state.completed})
+    const todoState = {text: this.props.todo, completed: !this.props.todoStatus}
+    this.props.statusChange(todoState, this.props.index)
   }
+
   render() {
     const index = this.props.index
     const oldValue = this.props.todo
     return (
-      <li className={this.state.completed ? this.state.className : null}>
+      <li className={this.props.todoStatus ? this.state.className : null}>
         {!this.state.isEditing && <div className="view">
            <label onDoubleClick={this.handleEdit}>{this.props.todo}</label>
            <button className="destroy" onClick={this.props.onDestroy}/>
             <input className="toggle" type="checkbox"
-  							checked={this.state.completed} onChange={this.onToggle}/>
+  							checked={this.props.todoStatus} onChange={this.onToggle}/>
               </div>}
-            {this.state.isEditing && <input className="edit" autoFocus= {true} 
+            {this.state.isEditing && <input className="edit" autoFocus= {true}
 						value={this.state.editText}
 						onChange={(e) =>this.handleChange(e)}
 						onKeyDown={(event) => this.handleKeyDown(event, index, oldValue)}
